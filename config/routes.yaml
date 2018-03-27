@@ -3,5 +3,9 @@ home:
     controller: App\Controller\HomeController::renderHome
 
 signIn:
-    path: /login
-    controller: App\Controller\UserController::logIn
+    path: /signIn
+    controller: App\Controller\UserController::signIn
+
+signUp:
+    path: /signUp
+    controller: App\Controller\UserController::signUp

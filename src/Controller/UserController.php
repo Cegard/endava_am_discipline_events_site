@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller{
 	
 	
-	public function logIn(SessionInterface $session, Request $request){
+	public function signIn(SessionInterface $session, Request $request){
 		
 		if (!$session->has("loguedUser") && $request->getMethod() == "POST"){
 			$session->set("loguedUser", $request->request->get("signInEmail"));
