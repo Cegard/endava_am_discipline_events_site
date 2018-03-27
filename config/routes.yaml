@@ -1,3 +1,7 @@
-index:
+home:
     path: /
-    controller: App\Controller\DefaultController::index
+    controller: App\Controller\HomeController::renderHome
+
+signIn:
+    path: /login
+    controller: App\Controller\UserController::logIn
