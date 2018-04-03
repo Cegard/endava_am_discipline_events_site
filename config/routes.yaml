@@ -8,4 +8,8 @@ signIn:
 
 signUp:
     path: /signUp
-    controller: App\Controller\UserController::signUp
+    controller: App\Controller\HomeController::renderSignUp
+
+register:
+    path: /register
+    controller: App\Controller\UserController::registerUser

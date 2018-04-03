@@ -1,17 +1,21 @@
 {% extends "home.html.twig" %}
 
 {% block body %}
-    <form id="signInForm" method="post" action="{{ path('signIn')}}">
+    
+    <div class="signInForm"><form id="signInForm" method="post" action="{{ path('signIn') }}">
         <div class="formLine">
             <label>email</label>
-            <input type="email" form="signInForm" id="signInEmail" name="signInEmail" required>
+            <input type="email" form="signInForm" id="signInEmail" name="email" required>
         </div>
         <div class="formLine">
             <label>password</label>
-            <input type="password" form="signInForm" id="signInPass" name="signInPass" required>
+            <input type="password" form="signInForm" id="signInPass" name="pass" required>
         </div>
-        <div class="formSubmit">
-            <input type="submit" form="signInForm" id="signInSubmit" value="enviar">
+        <div class="signIn">
+            <input type="submit" form="signInForm" id="signInSubmit" value="Sign In">
         </div>
-    </form>
+    </form></div>
+    <div><form id="signUpLink" action="{{ path('signUp') }}">
+        <input type="submit" form="signUpLink" value="Sign Up">
+    </div></form>
 {% endblock %}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Sign Up{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+		<div class="signUpForm"><form id="signUpForm" method="post" action="{{ path('register') }}">
+			<div class="formLine">
+				<label>name</label>
+				<input type="text" form="signUpForm" id="signUpName" name="name" required>
+				<label>last name</label>
+				<input type="text" form="signUpForm" id="signUpLastName" name="lastName" required>
+			</div>
+			<div class="formLine">
+				<label>phone number</label>
+				<input type="text" form="signUpForm" id="signUpPhone" name="phone" required>
+			</div>
+			<div class="formLine">
+				<label>email</label>
+				<input type="email" form="signUpForm" id="signUpEmail" name="email" required>
+			</div>
+			<div class="formLine">
+				<label>password</label>
+				<input type="password" form="signUpForm" id="signUpPass" name="pass" required>
+			</div>
+			<div class="signUp">
+				<input type="submit" form="signUpForm" id="signUpSubmit" value="Sign Up">
+			</div>
+		</form></div>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
