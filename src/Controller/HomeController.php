@@ -9,8 +9,8 @@ class HomeController extends Controller{
 	
 	
 	public function renderHome(SessionInterface $session){
-		return ($session->has("loguedUser"))? $this->render("home.html.twig", array(
-					"userName" => $session->get("loguedUser"))) :
+		return ($session->has("loguedUserId"))? $this->render("home.html.twig", array(
+					"userName" => $session->get("loguedUserName"))) :
 				$this->render("signIn.html.twig");
 	}
 	

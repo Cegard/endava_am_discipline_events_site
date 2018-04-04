@@ -11,9 +11,20 @@ class UserController extends Controller{
 	
 	
 	public function signIn(SessionInterface $session, Request $request){
+		$entity = $this->getDoctrine()->getManager();
 		
 		if (!$session->has("loguedUser") && $request->getMethod() == "POST"){
-			$session->set("loguedUser", $request->request->get("email"));
+			$loguedUser = $this->getDoctrine()
+					->getRepository(Person::class)
+					->findOneBy([
+						"email" => $request->request->get("email"),
+						"password" => $request->request->get("pass")
+					]);
+			
+			if ($loguedUser){
+				$session->set("loguedUserId", $loguedUser->getId());
+				$session->set("loguedUserName", $loguedUser->getName());
+			}
 		}
 		
 		return $this->redirectToRoute("home");
