@@ -1,7 +1,9 @@
 {% extends "home.html.twig" %}
 
 {% block body %}
-    
+    {% if message %}
+        <div class="message"> <label> {{ message }} </label> </div>
+    {% endif %}
     <div class="signInForm"><form id="signInForm" method="post" action="{{ path('signIn') }}">
         <div class="formLine">
             <label>email</label>

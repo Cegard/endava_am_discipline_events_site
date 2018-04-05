@@ -11,9 +11,10 @@ class UserController extends Controller{
 	
 	
 	public function signIn(SessionInterface $session, Request $request){
-		$entity = $this->getDoctrine()->getManager();
+		$message = "";
 		
 		if (!$session->has("loguedUser") && $request->getMethod() == "POST"){
+			$entity = $this->getDoctrine()->getManager();
 			$loguedUser = $this->getDoctrine()
 					->getRepository(Person::class)
 					->findOneBy([
@@ -25,9 +26,14 @@ class UserController extends Controller{
 				$session->set("loguedUserId", $loguedUser->getId());
 				$session->set("loguedUserName", $loguedUser->getName());
 			}
+			
+			else
+				$message = "There was an error";
 		}
 		
-		return $this->redirectToRoute("home");
+		return $this->redirectToRoute("home", array(
+			"message" => $message
+		));
 	}
 	
 	
@@ -44,6 +50,8 @@ class UserController extends Controller{
 		$entity->persist($newPerson);
 		$entity->flush();
 		
-		return $this->redirectToRoute("home");
+		return $this->redirectToRoute("home", array(
+			"message" => "user registered, now log in"
+		));
 	}
 }
