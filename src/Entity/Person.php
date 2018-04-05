@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
@@ -40,6 +41,16 @@ class Person
      * @ORM\Column(type="string", length=50)
      */
     private $password;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="owner")
+     */
+    private $events;
+    
+    
+    public function __construct(){
+        $this->events = new ArrayCollection();
+    }
     
     
     public function getId(){
@@ -104,5 +115,13 @@ class Person
         $this->password = $password;
         
         return $this;
+    }
+    
+    
+    /**
+     *@return Collection|Event[]
+     */
+    public function getEvents(){
+        return $this->events;
     }
 }

@@ -27,9 +27,24 @@ class Event
     private $publishdDate;
 
     /**
-     * @ORM\Column(type="dateTime")
+     * @ORM\Column(type="date")
      */
-    private $eventDate;
+    private $startDate;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $endDate;
+
+    /**
+     * @ORM\Column(type="string", length=80, nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVirtual;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -40,6 +55,18 @@ class Event
      * @ORM\Column(type="string", length=150)
      */
     private $address;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="events")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $owner;
+    
+    
+    public function __construct(){
+        $this->isVirtual = false;
+    }
+    
 
     public function getId()
     {
