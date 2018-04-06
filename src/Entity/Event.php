@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -57,14 +58,20 @@ class Event
     private $address;
     
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="events")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Person", inversedBy="eventsCreated")
      * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
     
+    /**
+     *@ORM\ManyToMany(targetEntity="App\Entity\Person", mappedBy="eventsInvitations")
+     */
+    private $invitedPeople;
+    
     
     public function __construct(){
         $this->isVirtual = false;
+        $this->invitedPeople = new ArrayCollection();
     }
     
 

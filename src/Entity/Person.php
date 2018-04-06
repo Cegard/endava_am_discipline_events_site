@@ -45,11 +45,18 @@ class Person
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="owner")
      */
-    private $events;
+    private $eventsCreated;
     
+    
+    /**
+     *@ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="invitedPeople")
+     *@ORM\JoinTable(name="invitations")
+     */
+    private $eventsInvitations;
     
     public function __construct(){
-        $this->events = new ArrayCollection();
+        $this->eventsCreated = new ArrayCollection();
+        $this->eventsInvitations = new ArrayCollection();
     }
     
     
@@ -122,6 +129,6 @@ class Person
      *@return Collection|Event[]
      */
     public function getEvents(){
-        return $this->events;
+        return $this->eventsCreated;
     }
 }
