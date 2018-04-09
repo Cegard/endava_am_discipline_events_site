@@ -13,3 +13,19 @@ signUp:
 register:
     path: /register
     controller: App\Controller\UserController::registerUser
+
+updateProfile:
+    path: /updateProfile
+    controller: App\Controller\HomeController::renderSignUp
+
+updateUser:
+    path: /updateUser
+    controller: App\Controller\userController::updateUser
+
+eventCreation:
+    path: /eventCreation
+    controller: App\Controller\HomeController::renderEventCreation
+
+createEvent:
+    path: /createEvent
+    controller: App\Controller\EventController::createEvent

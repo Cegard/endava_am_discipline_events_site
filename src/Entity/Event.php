@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Person;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -23,17 +24,12 @@ class Event
     private $name;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $publishdDate;
-
-    /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $startDate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $endDate;
 
@@ -92,26 +88,26 @@ class Event
         return $this;
     }
 
-    public function getPublishdDate(): ?\DateTimeInterface
+    public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->publishdDate;
+        return $this->startDate;
     }
 
-    public function setPublishdDate(\DateTimeInterface $publishdDate): self
+    public function setStartDate(\DateTimeInterface $startDate): self
     {
-        $this->publishdDate = $publishdDate;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEventDate(): ?\DateTimeInterface
+    public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->eventDate;
+        return $this->endDate;
     }
 
-    public function setEventDate(\DateTimeInterface $eventDate): self
+    public function setEndDate(\DateTimeInterface $endDate): self
     {
-        $this->eventDate = $eventDate;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -136,6 +132,42 @@ class Event
     public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Person
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(Person $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getIsVirtual(): ?bool
+    {
+        return $this->isVirtual;
+    }
+
+    public function setIsVirtual(bool $isVirtual): self
+    {
+        $this->isVirtual = $isVirtual;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

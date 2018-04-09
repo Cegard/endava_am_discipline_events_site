@@ -44,8 +44,9 @@ class Person
     
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Event", mappedBy="owner")
+     * @ORM\OrderBy({"startDate" = "ASC"})
      */
-    private $eventsCreated;
+    private $createdEvents;
     
     
     /**
@@ -55,7 +56,7 @@ class Person
     private $eventsInvitations;
     
     public function __construct(){
-        $this->eventsCreated = new ArrayCollection();
+        $this->createdEvents = new ArrayCollection();
         $this->eventsInvitations = new ArrayCollection();
     }
     
@@ -128,7 +129,13 @@ class Person
     /**
      *@return Collection|Event[]
      */
-    public function getEvents(){
-        return $this->eventsCreated;
+    public function getCreatedEvents(){
+        return $this->createdEvents;
+    }
+    
+    public function addCreatedEvent(Event $event){
+        
+        if (!$this->createdEvents->contains($event))
+            $this->createdEvents[] = $event;
     }
 }
