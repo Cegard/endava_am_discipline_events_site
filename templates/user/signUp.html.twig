@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}
-            {% if loguedUserId %}
-                Update
-            {% else %}
-                Sign Up
-            {% endif %}
-        {% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
-		<div class="signUpForm">
-            
-            {% if loguedUserId %}
-                <form id="signUpForm" method="post" action="{{ path('updateUser') }}">
-            {% else %}
-                <form id="signUpForm" method="post" action="{{ path('register') }}">
-            {% endif %}
-			
-            <div class="formLine">
-				<label>name</label>
-				<input type="text" form="signUpForm" id="signUpName" name="name" required>
-				<label>last name</label>
-				<input type="text" form="signUpForm" id="signUpLastName" name="lastName" required>
-			</div>
-			<div class="formLine">
-				<label>phone number</label>
-				<input type="text" form="signUpForm" id="signUpPhone" name="phone" required>
-			</div>
-			<div class="formLine">
-				<label>email</label>
-				<input type="email" form="signUpForm" id="signUpEmail" name="email" required>
-			</div>
-			<div class="formLine">
-				<label>password</label>
-				<input type="password" form="signUpForm" id="signUpPass" name="pass" required>
-			</div>
-			<div class="signUp">
-				<input type="submit" form="signUpForm" id="signUpSubmit" value="Send">
-			</div>
-		</form></div>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}
+      {% if loguedUserId %}
+        Update
+      {% else %}
+        Sign Up
+      {% endif %}
+    {% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+      {% block body %}
+  <div class="signUpForm">
+      
+    {% if loguedUserId %}
+      <form id="signUpForm" method="post" action="{{ path('updateUser') }}">
+    {% else %}
+      <form id="signUpForm" method="post" action="{{ path('register') }}">
+    {% endif %}
+
+    <div class="formLine">
+      <label>name</label>
+      <input type="text" form="signUpForm" id="signUpName" name="name" required>
+      <label>last name</label>
+      <input type="text" form="signUpForm" id="signUpLastName" name="lastName" required>
+    </div>
+    <div class="formLine">
+      <label>phone number</label>
+      <input type="text" form="signUpForm" id="signUpPhone" name="phone" required>
+    </div>
+    <div class="formLine">
+      <label>email</label>
+      <input type="email" form="signUpForm" id="signUpEmail" name="email" required>
+    </div>
+    <div class="formLine">
+      <label>password</label>
+      <input type="password" form="signUpForm" id="signUpPass" name="pass" required>
+    </div>
+    <div class="signUp">
+      <input type="submit" form="signUpForm" id="signUpSubmit" value="Send">
+    </div>
+  </form></div>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+  </body>
 </html>

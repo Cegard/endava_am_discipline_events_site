@@ -48,6 +48,16 @@ class Person
      */
     private $createdEvents;
     
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+    
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $role;
+    
     
     /**
      *@ORM\ManyToMany(targetEntity="App\Entity\Event", inversedBy="invitedPeople")
@@ -58,6 +68,8 @@ class Person
     public function __construct(){
         $this->createdEvents = new ArrayCollection();
         $this->eventsInvitations = new ArrayCollection();
+        $this->active = true;
+        $this->role = "user";
     }
     
     
@@ -132,6 +144,33 @@ class Person
     public function getCreatedEvents(){
         return $this->createdEvents;
     }
+    
+    
+    public function changeActiveState(): self{
+        $this->active = !($this->active);
+        
+        return $this;
+    }
+    
+    
+    public function getActiveState(): ?bool{
+        
+        return $this->active;
+    }
+    
+    
+    public function getRole(): ?string{
+        
+        return $this->role;
+    }
+    
+    
+    public function setRole(string $newRole): self{
+        $this->role = $newRole;
+        
+        return $this;
+    }
+    
     
     public function addCreatedEvent(Event $event){
         

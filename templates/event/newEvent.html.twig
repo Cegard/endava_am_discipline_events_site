@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %} event creation {% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
+	<head>
+		<meta charset="UTF-8">
+		<title>{% block title %} event creation {% endblock %}</title>
+		{% block stylesheets %}{% endblock %}
+	</head>
+	<body>
+		{% block body %}
 		<div class="createEventForm">
-        <form id="createEventForm" method="post" action="{{ path('createEvent') }}">
-			
-            <div class="formLine">
+				<form id="createEventForm" method="post" action="{{ path('createEvent') }}">		
+					<div class="formLine">
 				<label>name</label>
 				<input type="text" form="createEventForm" id="createEvetName" name="name" required>
 			</div>
@@ -42,7 +41,7 @@
 				<input type="submit" form="createEventForm" id="createEventSubmit" value="Send">
 			</div>
 		</form></div>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+		{% endblock %}
+		{% block javascripts %}{% endblock %}
+	</body>
 </html>
