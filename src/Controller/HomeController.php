@@ -36,14 +36,17 @@ class HomeController extends Controller{
 	
 	
 	public function renderSignUp(SessionInterface $session){
-		$loguedUserId = $session->get("loguedUserId", "");
+		
 		return $this->render("user/signUp.html.twig", array(
-					"loguedUserId" => $loguedUserId
+					"loguedUserId" => $session->get("loguedUserId", "")
 				));
 	}
 	
 	
-	public function renderEventCreation(){
-		return $this->render("event/newEvent.html.twig");
+	public function renderEventCreation(Request $request){
+		
+		return $this->render("event/newEvent.html.twig", array(
+			"eventId" => $request->query->get("eventId", "")
+		));
 	}
 }

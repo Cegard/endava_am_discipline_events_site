@@ -29,3 +29,11 @@ eventCreation:
 createEvent:
     path: /createEvent
     controller: App\Controller\EventController::createEvent
+
+editEvent:
+    path: /editEvent
+    controller: App\Controller\EventController::editEvent
+
+removeEvent:
+    path: /removeEvent
+    controller: App\Controller\EventController::removeEvent

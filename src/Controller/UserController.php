@@ -24,7 +24,7 @@ class UserController extends Controller{
 						"password" => $request->request->get("pass")
 					]);
 			
-			if ($loguedUser){
+			if ($loguedUser->getActive()){
 				$session->set("loguedUserId", $loguedUser->getId());
 				$session->set("loguedUserName", $loguedUser->getName());
 				$events = $loguedUser->getCreatedEvents();

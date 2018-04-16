@@ -42,4 +42,36 @@ class EventController extends Controller{
                     "message" => "event created"
                 ));
     }
+    
+    
+    public function editEvent(Request $request){
+		$entity = $this->getDoctrine()->getManager();
+		$pickedEvent = $this->getDoctrine()->getManager()
+					->getRepository(Event::class)
+					->findOneBy([
+						"id" => $request->request->get("eventId")
+					]);
+        
+        $pickedEvent->setName($request->request->get("name"));
+        $pickedEvent->setAddress($request->request->get("address"));
+        $pickedEvent->setCategory($request->request->get("category"));
+        $pickedEvent->setDescription($request->request->get("desc"));
+        $pickedEvent->setStartDate(new \DateTime($request->request->get("startDate")));
+        $pickedEvent->setEndDate(new \DateTime($request->request->get("endDate")));
+        $pickedEvent->setIsVirtual(
+                ($request->request->get("pressence") == "presential")? false : true
+        );
+		
+		$entity->persist($pickedEvent);
+		$entity->flush();
+		
+		return $this->redirectToRoute("home", array(
+                    "message" => "event edited"
+                ));
+    }
+    
+    
+    public function removeEvent(){
+        
+    }
 }

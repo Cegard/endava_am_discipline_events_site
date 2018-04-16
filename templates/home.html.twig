@@ -23,7 +23,17 @@
             <label> description: </label> {{event.getDescription()}} <br>
             <label> address: </label> {{event.getaddress()}} <br>
             <label> start date: </label> {{event.getStartDate() | date('d/m/Y')}} <br>
-            <label> end date: </label> {{event.getStartDate() | date('d/m/Y')}}
+            <label> end date: </label> {{event.getStartDate() | date('d/m/Y')}} <br>
+          </div>
+          
+          <div class="eventButtons">
+            <form action="{{path('eventCreation')}}">
+              <input type="hidden" name="eventId" value="{{event.getId()}}">
+              <input type="submit" value="edit this event">
+            </form>
+            <form action="{{path('removeEvent')}}">
+              <input type="submit" value="remove this event">
+            </form>
           </div>
         {% endfor %}
       </div>
