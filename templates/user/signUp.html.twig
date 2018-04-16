@@ -35,10 +35,12 @@
       <label>email</label>
       <input type="email" form="signUpForm" id="signUpEmail" name="email" required>
     </div>
-    <div class="formLine">
-      <label>password</label>
-      <input type="password" form="signUpForm" id="signUpPass" name="pass" required>
-    </div>
+    {% if isOwner %}
+      <div class="formLine">
+        <label>password</label>
+        <input type="password" form="signUpForm" id="signUpPass" name="pass" required>
+      </div>
+    {% endif %}
     <div class="signUp">
       <input type="submit" form="signUpForm" id="signUpSubmit" value="Send">
     </div>

@@ -20,7 +20,7 @@ updateProfile:
 
 updateUser:
     path: /updateUser
-    controller: App\Controller\userController::updateUser
+    controller: App\Controller\UserController::updateUser
 
 eventCreation:
     path: /eventCreation
@@ -37,3 +37,15 @@ editEvent:
 removeEvent:
     path: /removeEvent
     controller: App\Controller\EventController::removeEvent
+
+adminEvents:
+    path: /adminEvents
+    controller: App\Controller\HomeController::renderAdminEventsPage
+
+adminUsers:
+    path: /adminUsers
+    controller: App\Controller\HomeController::renderAdminUsersPage
+
+changeUserState:
+    path: /changeUserStatus
+    controller: App\Controller\UserController::changeUserStatus

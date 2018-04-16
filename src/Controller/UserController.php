@@ -3,6 +3,7 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Person;
 use App\Entity\Event;
@@ -11,9 +12,29 @@ use App\Entity\Event;
 class UserController extends Controller{
 	
 	
-	public function signIn(SessionInterface $session, Request $request){
+	public function setPersonFieldsThroughtPOST($person, $request){
+		$person->setName($request->get("name"));
+		$person->setLastName($request->get("lastName"));
+		$person->setPhone($request->get("phone"));
+		$person->setEmail($request->get("email"));
+	}
+	
+	
+	public function checkEmailAviability($password){
+		$user = $this->getDoctrine()
+					->getRepository(Person::class)
+					->findOneBy([
+						"email" => $password
+					]);
+		
+		return $user == null;
+	}
+	
+	
+	public function signIn(SessionInterface $session, Request $request, UserPasswordEncoderInterface $encoder){
 		$message = "";
 		$events = [];
+		$route = "home";
 		
 		if (!$session->has("loguedUser") && $request->getMethod() == "POST"){
 			$entity = $this->getDoctrine()->getManager();
@@ -24,9 +45,10 @@ class UserController extends Controller{
 						"password" => $request->request->get("pass")
 					]);
 			
-			if ($loguedUser->getActive()){
+			if ($loguedUser->getActiveState()){
 				$session->set("loguedUserId", $loguedUser->getId());
 				$session->set("loguedUserName", $loguedUser->getName());
+				$session->set("loguedUserRole", $loguedUser->getRole());
 				$events = $loguedUser->getCreatedEvents();
 			}
 			
@@ -34,7 +56,7 @@ class UserController extends Controller{
 				$message = "There was an error";
 		}
 		
-		return $this->redirectToRoute("home", array(
+		return $this->redirectToRoute($route, array(
 			"message" => $message,
 			"events" => $events
 		));
@@ -42,44 +64,72 @@ class UserController extends Controller{
 	
 	
 	public function registerUser(Request $request){
-		$entity = $this->getDoctrine()->getManager();
+		$message = "user registered, now log in";
 		
-		$newPerson = new Person();
-		$newPerson->setName($request->request->get("name"));
-		$newPerson->setLastName($request->request->get("lastName"));
-		$newPerson->setPhone($request->request->get("phone"));
-		$newPerson->setEmail($request->request->get("email"));
-		$newPerson->setPassword($request->request->get("pass"));
+		if ($this->checkEmailAviability($request->request->get("email"))){
+			$entity = $this->getDoctrine()->getManager();
+			$newPerson = new Person();
+			$this->setPersonFieldsThroughtPOST($newPerson, $request->request);
+			$newPerson->setPassword($request->request->get("pass"));
+			$entity->persist($newPerson);
+			$entity->flush();
+		}
 		
-		$entity->persist($newPerson);
-		$entity->flush();
+		else
+			$message = "that email exists";
 		
 		return $this->redirectToRoute("home", array(
-			"message" => "user registered, now log in"
+			"message" => $message
 		));
 	}
 	
 	
 	public function updateUser(SessionInterface $session, Request $request){
+		$message = "profile updated";
 		$entity = $this->getDoctrine()->getManager();
-		$loguedUserId = $session->get("loguedUserId");
-		$loguedUser = $this->getDoctrine()->getManager()
+		$userId = $request->request->get("userId", $session->get("loguedUserId"));
+		$user = $this->getDoctrine()->getManager()
 					->getRepository(Person::class)
 					->findOneBy([
-						"id" => $loguedUserId
+						"id" => $userId
 					]);
-		$loguedUser->setName($request->request->get("name"));
-		$loguedUser->setLastName($request->request->get("lastName"));
-		$loguedUser->setPhone($request->request->get("phone"));
-		$loguedUser->setEmail($request->request->get("email"));
-		$loguedUser->setPassword($request->request->get("pass"));
 		
-		$entity->persist($loguedUser);
-		$entity->flush();
-		$session->set("loguedUserName", $loguedUser->getName());
+		if ($user->getEmail() == $request->request->get("email") ||
+					$this->checkEmailAviability($request->request->get("email"))){
+			$this->setPersonFieldsThroughtPOST($user, $request->request);
+			
+			if ($request->has("pass"))
+				$person->setPassword($request->get("pass"));
+			
+			$entity->persist($user);
+			$entity->flush();
+			$session->set("loguedUserName", $user->getName());
+		}
+		
+		else
+			$message = "that email exists";
 		
 		return $this->redirectToRoute("home", array(
-					"message" => "profile updated"
-				));
+			"message" => $message
+		));
+	}
+	
+	
+	public function changeUserStatus(Request $request){
+		$entity = $this->getDoctrine()->getManager();
+		$userId = $request->request->get("userId", "");
+		$user = $this->getDoctrine()->getManager()
+					->getRepository(Person::class)
+					->findOneBy([
+						"id" => $userId
+					]);
+		$user->changeActiveState();
+		
+		$entity->persist($user);
+		$entity->flush($user);
+		
+		return $this->redirectToRoute("home", array(
+			"message" => "user updated"
+		));
 	}
 }

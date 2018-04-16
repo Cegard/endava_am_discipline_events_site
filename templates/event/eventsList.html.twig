@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}admin events{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <div class="eventsContainer">
+        {% for event in events%}
+          <div class="eventInfo">
+            <br><br>
+            <label> event: </label> {{event.getName()}} <br>
+            <label> description: </label> {{event.getDescription()}} <br>
+            <label> address: </label> {{event.getaddress()}} <br>
+            <label> start date: </label> {{event.getStartDate() | date('d/m/Y')}} <br>
+            <label> end date: </label> {{event.getStartDate() | date('d/m/Y')}} <br>
+          </div>
+          
+          <div class="eventButtons">
+            <form method="post" action="{{path('eventCreation')}}">
+              <input type="hidden" name="eventId" value="{{event.getId()}}">
+              <input type="submit" value="edit this event">
+            </form>
+            <form method="post" action="{{path('removeEvent')}}">
+              <input type="hidden" name="eventId" value="{{event.getId()}}">
+              <input type="submit" value="remove this event">
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+  </body>
+</html>

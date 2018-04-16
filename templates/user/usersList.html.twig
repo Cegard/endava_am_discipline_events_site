@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{% block title %}admin users{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <div class="eventsContainer">
+        {% for user in users%}
+          <div class="userInfo">
+            <br><br>
+            <label> name: </label> {{user.getName()}} <br>
+            <label> last name: </label> {{user.getLastName()}} <br>
+            <label> email: </label> {{user.getEmail()}} <br>
+            <label> phone: </label> {{user.getPhone()}} <br>
+            <label> role: </label> {{user.getRole()}} <br>
+            <label> is active: </label> {{user.getActiveState()? "yes" : "no"}} <br>
+          </div>
+          
+          <div class="eventButtons">
+            <form method="post" action="{{path('updateProfile')}}">
+              <input type="hidden" name="userId" value="{{user.getId()}}">
+              <input type="submit" value="edit this user">
+            </form>
+            <form method="post" action="{{path('changeUserState')}}">
+              <input type="hidden" name="userId" value="{{user.getId()}}">
+              <input type="submit" value="{{user.getActiveState()? "activate" : "deactivate"}}  user">
+            </form>
+          </div>
+        {% endfor %}
+      </div>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+  </body>
+</html>

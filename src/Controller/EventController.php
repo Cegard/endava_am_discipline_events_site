@@ -13,6 +13,19 @@ use App\Entity\Event;
 class EventController extends Controller{
     
     
+    public function setEventFieldsThroughPOST($request, $event){
+        $event->setName($request->get("name"));
+        $event->setAddress($request->get("address"));
+        $event->setCategory($request->get("category"));
+        $event->setDescription($request->get("desc"));
+        $event->setStartDate(new \DateTime($request->get("startDate")));
+        $event->setEndDate(new \DateTime($request->get("endDate")));
+        $event->setIsVirtual(
+                ($request->get("pressence") == "presential")? false : true
+        );
+    }
+    
+    
     public function createEvent(SessionInterface $session, Request $request){
 		$entity = $this->getDoctrine()->getManager();
 		$loguedUser = $this->getDoctrine()->getManager()
@@ -20,17 +33,8 @@ class EventController extends Controller{
 					->findOneBy([
 						"id" => $session->get("loguedUserId")
 					]);
-        
-		$newEvent = new Event();
-        $newEvent->setName($request->request->get("name"));
-        $newEvent->setAddress($request->request->get("address"));
-        $newEvent->setCategory($request->request->get("category"));
-        $newEvent->setDescription($request->request->get("desc"));
-        $newEvent->setStartDate(new \DateTime($request->request->get("startDate")));
-        $newEvent->setEndDate(new \DateTime($request->request->get("endDate")));
-        $newEvent->setIsVirtual(
-                ($request->request->get("pressence") == "presential")? false : true
-        );
+        $newEvent = new Event();
+        $this->setEventFieldsThroughPOST($request->request, $newEvent);
         $newEvent->setOwner($loguedUser);
         $loguedUser->addCreatedEvent($newEvent);
 		
@@ -47,23 +51,14 @@ class EventController extends Controller{
     public function editEvent(Request $request){
 		$entity = $this->getDoctrine()->getManager();
 		$pickedEvent = $this->getEvent($request->request->get("eventId", ""));
-        
-        $pickedEvent->setName($request->request->get("name"));
-        $pickedEvent->setAddress($request->request->get("address"));
-        $pickedEvent->setCategory($request->request->get("category"));
-        $pickedEvent->setDescription($request->request->get("desc"));
-        $pickedEvent->setStartDate(new \DateTime($request->request->get("startDate")));
-        $pickedEvent->setEndDate(new \DateTime($request->request->get("endDate")));
-        $pickedEvent->setIsVirtual(
-                ($request->request->get("pressence") == "presential")? false : true
-        );
+        $this->setEventFieldsThroughPOST($request->request, $pickedEvent);
 		
 		$entity->persist($pickedEvent);
 		$entity->flush();
 		
 		return $this->redirectToRoute("home", array(
-                    "message" => "event edited"
-                ));
+                "message" => "event edited"
+        ));
     }
     
     
