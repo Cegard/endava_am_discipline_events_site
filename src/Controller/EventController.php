@@ -46,11 +46,7 @@ class EventController extends Controller{
     
     public function editEvent(Request $request){
 		$entity = $this->getDoctrine()->getManager();
-		$pickedEvent = $this->getDoctrine()->getManager()
-					->getRepository(Event::class)
-					->findOneBy([
-						"id" => $request->request->get("eventId")
-					]);
+		$pickedEvent = $this->getEvent($request->request->get("eventId", ""));
         
         $pickedEvent->setName($request->request->get("name"));
         $pickedEvent->setAddress($request->request->get("address"));
@@ -71,7 +67,24 @@ class EventController extends Controller{
     }
     
     
-    public function removeEvent(){
-        
+    public function getEvent($eventId): Event{
+		
+        return $this->getDoctrine()->getManager()
+					->getRepository(Event::class)
+					->findOneBy([
+						"id" => $eventId
+					]);
+    }
+    
+    
+    public function removeEvent(Request $request){
+        $event = $this->getEvent($request->request->get("eventId", ""));
+		$entity = $this->getDoctrine()->getManager();
+        $entity->remove($event);
+        $entity->flush();
+		
+		return $this->redirectToRoute("home", array(
+                    "message" => "event removed"
+                ));
     }
 }

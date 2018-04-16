@@ -27,11 +27,12 @@
           </div>
           
           <div class="eventButtons">
-            <form action="{{path('eventCreation')}}">
+            <form method="post" action="{{path('eventCreation')}}">
               <input type="hidden" name="eventId" value="{{event.getId()}}">
               <input type="submit" value="edit this event">
             </form>
-            <form action="{{path('removeEvent')}}">
+            <form method="post" action="{{path('removeEvent')}}">
+              <input type="hidden" name="eventId" value="{{event.getId()}}">
               <input type="submit" value="remove this event">
             </form>
           </div>
